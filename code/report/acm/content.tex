@@ -1,32 +1,36 @@
 \section{Introduction}
 Paxos was proposed by Leslie Lamport in his paper "Part-time Parliament" \cite{lamport1998part}. 
-The algorithm provides a way to reach consensus in a set of multiple participating nodes. 
-The working principle behind Paxos algorithm is that the proposer node receives a propose, it sends a prepare message to all of the acceptor nodes which contains the Paxos iteration number and the proposal number. 
-The acceptor node on receiving such message can reply with a rejection or with a promise. 
-The promise is a guarantee that the acceptor node will not accept another proposal from any proposer node with a lower proposal number. 
-If the proposer recieves promise messages from a majority of the acceptor nodes, it can move forward with the actual proposal message. 
-The proposer node then sends a messages containing Paxos iteration number, the proposal number and the proposal value to the acceptors. 
+The algorithm provides a way to reach consensus in a system with multiple participating nodes. 
+The working principle behind Paxos algorithm is that the proposer node receives a \textit{propose}, it sends a prepare message to all of the \textit{acceptor} nodes which contains the Paxos iteration number and the proposal number. 
+The acceptor node on receiving such message can reply with a rejection or with a \textit{promise}. 
+A \textit{promise} is a guarantee that the \textit{acceptor} node will not accept another proposal from any proposer node with a lower proposal number. 
+If the proposer receives promise messages from a majority of the acceptor nodes, it can move forward with the actual proposal message. 
+The proposer node then sends a message containing Paxos iteration number, the proposal number and the proposal value to the acceptors. 
 If the proposer node receives Accept from majority of acceptor nodes, the iteration will end resulting in the network reaching a consensus on the value. 
 \section{Experiments and Results}
 \begin{figure}
+\label{fig:paxos}
 \centering
 \vspace*{-3cm}
 \includegraphics[scale=.45]{output} 
-\label{fig:paxos}
 \vspace*{-3.5cm}
 \caption{Scalability of Paxos Algorithm}
 \end{figure}
-For the evaluation, we used the implementation by Robbert van Renesse and Deniz Altinbuken \cite{van2015paxos}. 
+For the evaluation, we used the Paxos implementation by van Renesse and Altinbuken \cite{van2015paxos}. 
 The evaluation is designed to determine the scalability of the Paxos alogirthm by increasing the amount of participating nodes in the consensus. 
 The throughput is measured as the number of consensus reached per second. 
 For the evaluation, multiple sets of the test runs are evaluated in order to achieve average performance indicators. 
-The system used for evaluation is powered by intel 7700HQ processor clocked at 2.8GHz. 
-The system has 16GB of RAM. \\
-The results of the evaluation are plotted in Figure \ref{fig:paxos}. 
+For this study, we have used 4 test runs. 
+The system used for evaluation is powered by an intel 7700HQ processor clocked at a frequency of 2.8 GHz. 
+The system has 16 GB of RAM and running MacOS version 10.13.3. 
+The implementation is running on Python 2.7.10 interpreter. \\
+
+The results of the evaluation are plotted in Figure 1. 
 As expected, with the increasing number of consensus nodes in the network, the throughput of the system declines. 
 This is inline with the expectation that the proposer node has to wait for sufficient promise messages to form a majority in the system. 
 Similarly, before committing the proposer again waits for enough Accept messages from the participating nodes to obtain a majority. 
-The amount of messages induces increased time and thereby reducing the overall throughput of the system. 
+The amount of messages induces increased time to reach consensus and thereby reducing the overall throughput of the system. 
+Work by Santos and Schiper \cite{santos2012tuning} has suggested batching and pipelining to increase the overall throughput of a Paxos based system. 
 \section{Conclusion}
-In this work, we have studied the scalability of the Paxos algorithm. The results shows reduced throughput with the amount of increasing participating nodes. However, the decrease in throughput is gradual. 
+In this work, we have studied the scalability of the Paxos algorithm. The result shows reduced throughput with an increasing number of participating nodes. 
 
