@@ -82,6 +82,7 @@ if __name__ == '__main__':
 
 # Plot Graph
     plot_graph_pdf(plotdata_x, plotdata_y, yerror)
+    e._graceexit(0)
 
 # Exit
 
