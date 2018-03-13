@@ -7,9 +7,9 @@ from replica import Replica
 from utils import *
 
 NACCEPTORS = 3
-NREPLICAS = 2
+NREPLICAS = 10
 NLEADERS = 2
-NREQUESTS = 40
+NREQUESTS = 10
 NCONFIGS = 3
 
 class Env:
