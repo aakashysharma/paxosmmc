@@ -16,9 +16,9 @@ def plot_graph_pdf(x, y, yerror):
     # print(x, y, yerror)
     plt.errorbar(x, y, xerr=0, yerr=yerror, ecolor='red', fmt=':', capsize=8)
     # plt.title("Throughput of a Paxos")
-    plt.xlabel('Number of replicas')
-    plt.ylabel('Accepted proposals per second')
-    plt.savefig("output.pdf")
+    plt.xlabel('Number of Replicas')
+    plt.ylabel('Throughput -  commands per second')
+    plt.savefig("figure06.pdf")
     return
 
 
@@ -36,6 +36,23 @@ def getExecutionMetrics(e, clusterSize, requests):
     signal.signal(signal.SIGTERM, e.terminate_handler)
 
     return _throughput, _stddev
+
+
+def getSuccessfulEvents(e, clusterSize, requests):
+    e.setReplicaCount(clusterSize)
+    e.setRequestCount(requests)
+    e.run()
+    # print(e.get_execution_time())
+    _exec_time = e.get_execution_time()
+    _output_count = e.get_successful_events()
+    # print(t, output_count)
+    # e._graceexit(0)
+    _throughput, _stddev = e.get_throughput()
+    signal.signal(signal.SIGINT, e.terminate_handler)
+    signal.signal(signal.SIGTERM, e.terminate_handler)
+
+    return _throughput, _stddev, _exec_time, _output_count
+
 
 
 if __name__ == '__main__':
@@ -64,7 +81,7 @@ if __name__ == '__main__':
         # print(i)
         plotdata_x.append(i)
         e = Env()
-        y.append(getExecutionMetrics(e, i,threshold_request))
+        y.append(getExecutionMetrics(e, i, threshold_request))
 
         # print("From loop ", a, b)
         # e._graceexit(0)

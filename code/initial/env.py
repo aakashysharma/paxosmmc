@@ -7,9 +7,9 @@ from replica import Replica
 from utils import *
 from datetime import datetime
 
-NACCEPTORS = 1
+NACCEPTORS = 3
 NREPLICAS = 2
-NLEADERS = 1
+NLEADERS = 5
 NREQUESTS = 1
 NCONFIGS = 1
 TOTAL_TIME = 0
