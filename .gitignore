@@ -8,3 +8,6 @@
 *.egg-info
 *.sh
 *.idea
+venv/
+
+venv2/
